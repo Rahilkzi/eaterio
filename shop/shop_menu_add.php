@@ -16,9 +16,9 @@
             if(isset($_POST["f_preorderavail"])){$f_preorderavail = 1;}else{$f_preorderavail = 0;}
             $f_name = $_POST["f_name"];
             $f_price = $_POST["f_price"];
-            $f_type = $_POST["f_type"];
+            $f_type = $mysqli->real_escape_string($_POST["f_type"]);
             $insert_query = "INSERT INTO food (f_name,f_price,s_id,f_todayavail,f_preorderavail,f_type) 
-            VALUES ('{$f_name}',{$f_price},{$s_id},{$f_todayavail},{$f_preorderavail},{$f_type});";
+            VALUES ('{$f_name}',{$f_price},{$s_id},{$f_todayavail},{$f_preorderavail},'{$f_type}');";
             $insert_result = $mysqli -> query($insert_query);
             if(!empty($_FILES["f_pic"]["name"]) && $insert_result){
                 //Image upload
@@ -75,7 +75,7 @@
             </div>
             <div class="form-floating mb-2">
                 <select class="form-select" id="f_type" name="f_type">
-                    <option value="1">Breakfast</option>
+                    <option value="Breakfast">Breakfast</option>
                     <option value="Lunch">Lunch</option>
                     <option value="South Indian">South Indian</option>
                     <option value="Gujarati">Gujarati</option>
@@ -85,6 +85,7 @@
                     <option value="Beverages">Beverages</option>
                     <option value="Other">Other</option>    
                 </select>
+                <label for="f_type">Food Type</label>
             </div>
             <div class="mb-2">
                 <label for="formFile" class="form-label">Upload food image</label>
